@@ -1,13 +1,26 @@
+"""
+An abstract type generalizing black box optimization problems.
+
+Black box optimization problems are problems where the objective, constraints and related
+functions can only be evaluated, e.g., an output of a simulation or of a real world
+experiment in a lab.
+
+A subtype `MyProblem <: AbstractBlackBoxProblem` must implement the following methods:
+- `process(task::T, problem::MyProblem)`
+for each task type `T` that a solver that should solve the problem is requiring.
+"""
+abstract type AbstractBlackBoxProblem end
+
+
+# ------- BoxConstrainedProblem ----------
+
 # idea from https://github.com/jbrea/BayesianOptimization.jl
 @enum Sense Min = -1 Max = 1
 
 """
-An abstract type generalizing black box optimization problems.
-"""
-abstract type AbstractBlackBoxProblem end
+Definition of a box constrained optimization problem that can be used in `optimize!` function.
 
-"""
-Definition of a box constrained optimization problem.
+See also [`optimize!`](@ref).
 """
 struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
     # Objective f
@@ -30,15 +43,15 @@ struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
     # verbose::Bool
 end
 
-function process(_::GetBoxConstraints, problem::BoxConstrainedProblem)
+function process(_::GetBoxConstraintsTask, problem::BoxConstrainedProblem)
     problem.lb, problem.ub
 end
 
-function process(_::GetSense, problem::BoxConstrainedProblem)
+function process(_::GetSenseTask, problem::BoxConstrainedProblem)
     problem.sense
 end
 
 # the only place where f is ever evaluated -> transparency for expensive objective fun.
-function process(task::EvalObjective, problem::BoxConstrainedProblem)
+function process(task::EvalObjectiveTask, problem::BoxConstrainedProblem)
     (problem.f).(task.xs)
 end
