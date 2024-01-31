@@ -15,8 +15,8 @@ struct GetSenseTask <: AbstractTask end
 """
 Task to evaluate the objective function at points `xs`.
 """
-struct EvalObjectiveTask <: AbstractTask
-    xs::Any
+struct EvalObjectiveTask{S <: Real} <: AbstractTask
+    xs::Vector{Vector{S}}
 end
 
 # ------ Responses -------

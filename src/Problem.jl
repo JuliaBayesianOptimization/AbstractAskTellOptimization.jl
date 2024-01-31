@@ -41,11 +41,11 @@ struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
     # verbose::Bool
 end
 
-function process(_::BoxConstraintsTask, problem::BoxConstrainedProblem)
+function process(_::GetBoxConstraintsTask, problem::BoxConstrainedProblem)
     problem.lb, problem.ub
 end
 
-function process(_::SenseTask, problem::BoxConstrainedProblem)
+function process(_::GetSenseTask, problem::BoxConstrainedProblem)
     problem.sense
 end
 
