@@ -15,26 +15,28 @@ Possible downsides are slower optimization since evaluations need to wrapped in 
 """
 module AbstractAskTellOptimization
 
-export AbstractAskTellSolver, ask, isdone # AbstractAskTellSolver interface
-export optimize!
-
 include("problem.jl")
-export AbstractBlackBoxProblem
-export BoxConstrainedProblem, Min, Max
-export process
-
 include("communication.jl")
+include("normalizer.jl")
+
+# AbstractAskTellSolver interface
+export AbstractAskTellSolver, ask, isdone
+export AbstractBlackBoxProblem
+
 export AbstractTask
 export GetBoxConstraintsTask, GetSenseTask, EvalObjectiveTask
 
 export AbstractResponse
 export GetBoxConstraintsResponse, GetSenseResponse, EvalObjectiveResponse
 
+# useful for applications that don't require control over optimization loop
+export optimize!
+export BoxConstrainedProblem, Min, Max
+export process
+
+# helpers for normalizing problems and communication logging
 export CommunicationLogger
-
-include("normalizer.jl")
 export Normalizer
-
 
 """
 All subtypes `MySolver <: AbstractAskTellSolver` must implement the following methods:
@@ -63,7 +65,7 @@ function isdone end
 """
     optimize!(solver::AbstractAskTellSolver, problem::AbstractBlackBoxProblem)
 
-Run optimization loop for applications that don't require to use ask-tell interface.
+Run optimization for applications that don't require control over optimization loop.
 
 For instance if the objective function is a julia function that is passed and not
 a real world experiment, the user does not need to control the optimization loop.
