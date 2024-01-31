@@ -18,7 +18,9 @@ abstract type AbstractBlackBoxProblem end
 @enum Sense Min = -1 Max = 1
 
 """
-Definition of a box constrained optimization problem.
+Definition of a box constrained optimization problem that can be used in `optimize!` function.
+
+See also [`optimize!`](@ref).
 """
 struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
     # Objective f
