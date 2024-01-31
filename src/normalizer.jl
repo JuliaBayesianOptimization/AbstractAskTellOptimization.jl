@@ -32,8 +32,8 @@ function unnormalize(task::EvalObjectiveTask, n)
     EvalObjectiveTask( map(x -> from_unit_cube(x, n.lb, n.ub), task.xs))
 end
 
-function normalize(task::EvalObjectiveResponse, n)
-    norm_xs =  map(x -> to_unit_cube(x, n.lb, n.ub), task.xs)
+function normalize(r::EvalObjectiveResponse, n)
+    norm_xs =  map(x -> to_unit_cube(x, n.lb, n.ub), r.xs)
     # if maximizing, n.sense is 1 and the problem is not changed
     norm_ys = n.sense .* ys
     EvalObjectiveResponse(norm_xs, norm_ys)
