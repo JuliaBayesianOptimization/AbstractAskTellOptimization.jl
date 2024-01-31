@@ -1,6 +1,6 @@
 # ------ Tasks -------
 """
-An abstract type for tasks solver can require.
+An abstract type for tasks that a solver can require.
 
 Example tasks
 - ask to evaluate objective function at some points
@@ -9,8 +9,8 @@ Example tasks
 """
 abstract type AbstractTask end
 
-struct BoxConstraintsTask <: AbstractTask end
-struct SenseTask <: AbstractTask end
+struct GetBoxConstraintsTask <: AbstractTask end
+struct GetSenseTask <: AbstractTask end
 
 """
 Task to evaluate the objective function at points `xs`.
@@ -21,23 +21,23 @@ end
 
 # ------ Responses -------
 """
-An abstract type for responses to tasks that solver can require.
+An abstract type for responses to tasks that a solver can require.
 """
-abstract type AbstractReponse end
+abstract type AbstractResponse end
 
-struct BoxConstraintsResponse{S<:Real} <: AbstractReponse
+struct GetBoxConstraintsResponse{S<:Real} <: AbstractResponse
     lb::Vector{S}
     ub::Vector{S}
 end
 
-struct SenseResponse <: AbstractReponse
+struct GetSenseResponse <: AbstractResponse
     sense::Sense
 end
 
 """
 Response to task of evaluating the objective function at points `xs`.
 """
-struct EvalObjectiveResponse{S<:Real,T<:Real} <: AbstractReponse
+struct EvalObjectiveResponse{S<:Real,T<:Real} <: AbstractResponse
     xs::Vector{Vector{S}}
     ys::Vector{T}
 end
@@ -76,11 +76,11 @@ function isdone(c::CommunicationLogger)
     isdone(c.solver)
 end
 
-function log_communication(_::BoxConstraintsTask)
+function log_communication(_::GetBoxConstraintsTask)
     @info "Task: GetBoxConstraints"
 end
 
-function log_communication(_::SenseTask)
+function log_communication(_::GetSenseTask)
     @info "Task: GetSense"
 end
 
@@ -88,11 +88,11 @@ function log_communication(task::EvalObjectiveTask)
     @info "Task: EvalObjective; xs = $(task.xs)"
 end
 
-function log_communication(r::BoxConstraintsResponse)
+function log_communication(r::GetBoxConstraintsResponse)
     @info "Response: GetBoxConstraints; lb = $(r.lb), ub=$(r.ub)"
 end
 
-function log_communication(r::SenseResponse)
+function log_communication(r::GetSenseResponse)
     @info "Task: GetSense; $(r.sense)"
 end
 
