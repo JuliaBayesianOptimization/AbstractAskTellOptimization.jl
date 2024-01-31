@@ -1,14 +1,17 @@
 """
 Defines an interface and helper utilities for solvers providing ask-tell optimization.
 
-Ask-tell means that the solver is proposing a tasks that need to be processed and once the user
-has processed the tasks, the results are returned to the solver for computing the next task.
+Ask-tell means that the solver is sequentially proposing tasks that need to be processed and
+once the user has processed a task, the results are returned to the solver for computing the
+next task.
+
 An example task is to evaluate the objective function at a batch of points. The user has the
 freedom do evaluate the objective in any way, e.g., schedule or run in parallel and once the
 results are available resume optimization.
 
-The benefits are more control over the optimization loop and increased transparency when
-evaluating expensive objectives.
+The benefits are more control over the optimization loop, increased transparency when
+evaluating expensive objectives and flexible extentions, e.g. to multifidelity optimization.
+Possible downsides are slower optimization since evaluations need to wrapped in task objects.
 """
 module AbstractAskTellOptimization
 
