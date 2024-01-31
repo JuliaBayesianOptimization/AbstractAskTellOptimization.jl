@@ -4,7 +4,7 @@ An abstract type for tasks that a solver can require.
 
 Example tasks
 - ask to evaluate objective function at some points
-- ask to evaluate a simulation (multifidelity BO) at some points
+- ask to evaluate an approximation of the objective (multifidelity BO) at some points
 - ask to evaluate constraints at some points
 """
 abstract type AbstractTask end
@@ -15,7 +15,7 @@ struct GetSenseTask <: AbstractTask end
 """
 Task to evaluate the objective function at points `xs`.
 """
-struct EvalObjectiveTask{S <: Real} <: AbstractTask
+struct EvalObjectiveTask{S<:Real} <: AbstractTask
     xs::Vector{Vector{S}}
 end
 
@@ -49,9 +49,9 @@ end
 # - wrap a solver and forward ask & tell but during forwarding log communication, "man-in-the-middle"
 # - be able to save current optimization state to file and restore later
 # - support verbose levels
-# - combine logging of the internal solver
+# - combine logging with logging of the internal solver
 
-# TODO: maybe it is weird that CommunicationLogger <: AbstractAskTellSolver ...
+# TODO: maybe it is weird that CommunicationLogger <: AbstractAskTellSolver .. "man-in-the-middle" hack
 struct CommunicationLogger{S<:AbstractAskTellSolver} <: AbstractAskTellSolver
     solver::S
 end

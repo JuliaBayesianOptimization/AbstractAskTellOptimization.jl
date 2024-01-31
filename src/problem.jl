@@ -30,7 +30,7 @@ struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
     # box constraints: lowerbounds, upperbounds
     lb::Vector{S}
     ub::Vector{S}
-    # --------- TODO: deal with the following historical fields.
+    # --------- TODO: deal with the following fields from previous versions ------------
     # dimension::Int  # can be inferred from lower, upper bound?
     # domain_eltype::Type
     # range_type::Type

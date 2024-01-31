@@ -3,9 +3,9 @@
 #  - normalizer is transforming the problem into maximization over a unit cube
 #  - similarly to communication logger, it wraps a solver
 
-struct Normalizer{G <:AbstractAskTellSolver, S <: Real}
+struct Normalizer{G<:AbstractAskTellSolver,S<:Real}
     solver::G
-    # from black-box problem definition, acquired via initial tasks
+    # from black-box problem definition, acquired via injecting initial tasks in `ask`
     lb::Vector{S}
     ub::Vector{S}
     sense::Sense
@@ -14,11 +14,16 @@ end
 isdone(n::Normalizer) = isdone(n.solver)
 
 """
-Forwarding ask to wrapped solver but in between unnormalizing `task`, i.e., tasks are converted
-back to be wrt original black box problem. And normalizing `tell` callback.
+    ask(n::Normalizer)
 
-Unit cube domain is mapped to the original domain and the problem sense is turned to the
-original problem sense for the `task`. For `tell` the opposite is happening.
+Forwarding `ask` call to wrapped solver but in between unnormalizing `task`, i.e.,
+tasks are converted back to be wrt original black box problem, and normalizing `tell` callback.
+
+Unnormalizing `task` means that passed data in `task` wrt the unit cube domain is mapped
+to the original domain and the problem sense is turned to the original problem sense.
+Normalizing `tell` means that the passed response into `tell` wrt original domain and
+problem sense is mapped to to a unit cube domain and the optimization sense is turned
+into maximization problem.
 """
 function ask(n::Normalizer)
     # TODO: in order to use normalizer, it needs to request lb, ub, sense tasks
@@ -29,11 +34,11 @@ function ask(n::Normalizer)
 end
 
 function unnormalize(task::EvalObjectiveTask, n)
-    EvalObjectiveTask( map(x -> from_unit_cube(x, n.lb, n.ub), task.xs))
+    EvalObjectiveTask(map(x -> from_unit_cube(x, n.lb, n.ub), task.xs))
 end
 
 function normalize(r::EvalObjectiveResponse, n)
-    norm_xs =  map(x -> to_unit_cube(x, n.lb, n.ub), r.xs)
+    norm_xs = map(x -> to_unit_cube(x, n.lb, n.ub), r.xs)
     # if maximizing, n.sense is 1 and the problem is not changed
     norm_ys = n.sense .* ys
     EvalObjectiveResponse(norm_xs, norm_ys)

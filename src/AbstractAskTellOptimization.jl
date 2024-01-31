@@ -15,6 +15,27 @@ Possible downsides are slower optimization since evaluations need to wrapped in 
 """
 module AbstractAskTellOptimization
 
+export AbstractAskTellSolver, ask, isdone # AbstractAskTellSolver interface
+export optimize!
+
+include("problem.jl")
+export AbstractBlackBoxProblem
+export BoxConstrainedProblem, Min, Max
+export process
+
+include("communication.jl")
+export AbstractTask
+export GetBoxConstraintsTask, GetSenseTask, EvalObjectiveTask
+
+export AbstractResponse
+export GetBoxConstraintsResponse, GetSenseResponse, EvalObjectiveResponse
+
+export CommunicationLogger
+
+include("normalizer.jl")
+export Normalizer
+
+
 """
 All subtypes `MySolver <: AbstractAskTellSolver` must implement the following methods:
 - ask(solver::MySolver)
