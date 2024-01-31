@@ -6,11 +6,11 @@ once the user has processed a task, the results are returned to the solver for c
 next task.
 
 An example task is to evaluate the objective function at a batch of points. The user has the
-freedom do evaluate the objective in any way, e.g., schedule or run in parallel and once the
+freedom to evaluate the objective in any way, e.g., schedule or run in parallel and once the
 results are available resume optimization.
 
 The benefits are more control over the optimization loop, increased transparency when
-evaluating expensive objectives and flexible extentions, e.g. to multifidelity optimization.
+evaluating expensive objectives and flexible extentions, e.g., to multifidelity optimization.
 Possible downsides are slower optimization since evaluations need to wrapped in task objects.
 """
 module AbstractAskTellOptimization
