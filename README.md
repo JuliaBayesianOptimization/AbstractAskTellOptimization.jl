@@ -80,3 +80,8 @@ After processing a task, the results need to be wrapped in a respective result o
 
 - reuse SciML optimization code, e.g., structs for problem definition
 - make use of Julia features such as macros
+- create a package for optimization of systems that can only be measured by performing real world experiments, e.g., configuration of a production machine to increase precision
+  - build upon `AbstractAskTellOptimization` interface with a simple web GUI
+  - visualize historical trials, print next tasks, process input from user
+  - use GUI to configure main solver settings (e.g. how aggressively acquisition functions are optimized)
+  - a multifunctional, easy to use, decision support system for sample efficient parameter search
