@@ -26,7 +26,7 @@ Ask-tell can be found along typical "`optimize!`" interface in the following opt
 
 #### `AbstractAskTellSolver` interface
 
-`AbstractAskTellSolver` is generalizing solvers that provide an ask-tell interface.
+`AbstractAskTellSolver` is generalizing solvers performing ask-tell optimization.
 
 All subtypes `MySolver <: AbstractAskTellSolver` must implement the following methods:
 - `ask(solver::MySolver)`
@@ -36,7 +36,7 @@ All subtypes `MySolver <: AbstractAskTellSolver` must implement the following me
 
 `AbstractProblemOracle` is generalizing problem oracles that can process tasks of the solver.
 
-A problem oracle can be a fairly involved piece of code combining input from GUI, simulations, constraints, possibly solving some optimization subproblems.
+I imagine a problem oracle as a fairly involved piece of code combining input from GUI, running expensive simulations, evaluating constraints, scheduling experiments, evaluating objective function in parallel and possibly solving some optimization subproblems.
 
 A subtype `MyProblem <: AbstractProblemOracle` must implement the following methods:
 - `process(task::T, problem::MyProblem)`
