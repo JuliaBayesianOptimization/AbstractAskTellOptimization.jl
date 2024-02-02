@@ -1,16 +1,11 @@
 """
-An abstract type generalizing black box optimization problems.
+`AbstractProblemOracle` is generalizing problem oracles that can process tasks of the solver.
 
-Black box optimization problems are problems where the objective, constraints and related
-functions can only be evaluated, e.g., an output of a simulation or of a real world
-experiment in a lab.
-
-A subtype `MyProblem <: AbstractBlackBoxProblem` must implement the following methods:
+A subtype `MyProblem <: AbstractProblemOracle` must implement the following methods:
 - `process(task::T, problem::MyProblem)`
 for each task type `T` that a solver that should solve the problem is requiring.
 """
-abstract type AbstractBlackBoxProblem end
-
+abstract type AbstractProblemOracle end
 
 # ------- BoxConstrainedProblem ----------
 
@@ -22,7 +17,7 @@ Definition of a box constrained optimization problem that can be used in `optimi
 
 See also [`optimize!`](@ref).
 """
-struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
+struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractProblemOracle
     # Objective f
     f::Function
     # either -1 or 1, for maximization +1, for min. -1
@@ -36,7 +31,6 @@ struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractBlackBoxProblem
     # range_type::Type
     # TODO: max_evaluations and max total duration, maybe put into a DSM instead (next to check of eval budget)
     # it is not an information for problem eval. but instead more of a config for DSM
-    # max_evaluations::Int
     # in seconds,
     # max_duration::T
     # TODO: verbose levels, now Bool
