@@ -52,9 +52,13 @@ A solver package should implement `AbstractAskTellSolver` interface on an export
 
 Create a `MySolver` object `s` by passing some configuration settings. 
 
-Either create an instance `p` of `MyProblem <: AbstractProblemOracle` and run `optimize!(s,p)`, e.g., use `BoxConstrainedProblem`. 
+Scenario 1: "I want to optimize a function given by some function I can pass"
 
-Or run commands you like inside of the following loop.
+Create an instance `p` of `BoxConstrainedProblem <: AbstractProblemOracle` and run `optimize!(s,p)`. (In the future there might be other predefined problem oracles available, e.g., for constrained optimization)
+
+Scenario 2: "I want to build a decision support system that is using Bayesian optimization for sample efficient experiment design"
+
+Run commands you like inside of the following loop or create a custom problem oracle `MyProblem <: AbstractProblemOracle` and run `optimize!`.
 
 ```Julia
 while !isdone(s)
@@ -81,7 +85,8 @@ After processing a task, the results need to be wrapped in a respective result o
 - reuse SciML optimization code, e.g., structs for problem definition
 - make use of Julia features such as macros
 - create a package for optimization of systems that can only be measured by performing real world experiments, e.g., configuration of a production machine to increase precision
-  - build upon `AbstractAskTellOptimization` interface with a simple web GUI
+  - `ConfigurationToGo.jl` with a simple GUI (dash.jl?) / REPL app
+  - build upon `AbstractAskTellOptimization` interface
   - visualize historical trials, print next tasks, process input from user
   - use GUI to configure main solver settings (e.g. how aggressively acquisition functions are optimized)
   - a multifunctional, easy to use, decision support system for sample efficient parameter search
