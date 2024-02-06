@@ -9,6 +9,10 @@ Example tasks
 """
 abstract type AbstractTask end
 
+# TODO: it might be reasonable to collect box contraints and sense into a problem specification
+# and keep tasks only for evaluation of black box objectives / constraints etc.. If the box
+# constraints are known before the optimization starts, we don't need problem oracle to handle
+# it
 struct GetBoxConstraintsTask <: AbstractTask end
 struct GetSenseTask <: AbstractTask end
 

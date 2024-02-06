@@ -20,6 +20,11 @@ See also [`optimize!`](@ref).
 struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractProblemOracle
     # Objective f
     f::Function
+    #
+    # TODO: maybe remove sense, lb, ub from problem oracle (and resp. tasks, responses) as they
+    #       do not change - not black box functions, pass them as a problem specification
+    #       when initializing a solver
+    #
     # either -1 or 1, for maximization +1, for min. -1
     sense::Sense
     # box constraints: lowerbounds, upperbounds
