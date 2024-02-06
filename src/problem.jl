@@ -23,7 +23,9 @@ struct BoxConstrainedProblem{S<:Real,T<:Real} <: AbstractProblemOracle
     #
     # TODO: maybe remove sense, lb, ub from problem oracle (and resp. tasks, responses) as they
     #       do not change - not black box functions, pass them as a problem specification
-    #       when initializing a solver
+    #       when initializing a solver. Rename AbstractProblemOracle to AbstractEvaluationOracle
+    #       or AbstractTaskHandler etc..
+    #       so that it is clearer that it should evaluate black box functions / handle tasks
     #
     # either -1 or 1, for maximization +1, for min. -1
     sense::Sense
